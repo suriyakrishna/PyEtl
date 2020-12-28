@@ -1,0 +1,35 @@
+{
+    "OUTPUT_DIRECTORY" : "C:\\Users\\Kishan\\Desktop\\python_projects\\pyspark_etl\\output",
+    "SOURCE" : [
+        {
+            "TYPE" : "FILE",
+            "FORMAT" : "CSV",
+            "LOCATION" : "C:\\Users\\Kishan\\Desktop\\python_projects\\csv_to_json\\input\\employee.csv",
+            "ALIAS" : "employee",
+            "OPTIONS" : {
+                "SEP" : ",",
+                "HEADER" : "true"
+            }
+        },
+        {
+            "TYPE" : "FILE",
+            "FORMAT" : "CSV",
+            "LOCATION" : "C:\\Users\\Kishan\\Desktop\\python_projects\\csv_to_json\\input\\student.csv",
+            "ALIAS" : "student",
+            "OPTIONS" : {
+                "SEP" : "~",
+                "HEADER" : "false"
+            }
+        }
+    ],
+    "LOAD" : [
+        {
+            "QUERY" : "SELECT count(1) AS count FROM student",
+            "ALIAS" : "student_count"
+        },
+        {
+            "QUERY" : "SELECT count(1) AS count FROM employee",
+            "ALIAS" : "employee_count"
+        }
+    ]
+}

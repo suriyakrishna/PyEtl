@@ -1,0 +1,39 @@
+{
+    "OUTPUT_DIRECTORY" : "/user/hadoop/pyetl_test",
+    "SOURCE" : [
+        {
+            "TYPE" : "FILE",
+            "FORMAT" : "JSON",
+            "LOCATION" : "/user/hadoop/spark_jdbc_import_out/employees/salaries",
+            "ALIAS" : "employees_salaries"
+        },
+        {
+            "TYPE" : "FILE",
+            "FORMAT" : "PARQUET",
+            "LOCATION" : "/user/hadoop/spark_jdbc_import_out/world/city",
+            "ALIAS" : "world_city"
+        }
+    ],
+    "LOAD" : [
+        {
+            "QUERY" : "SELECT count(1) AS number_of_cities FROM world_city",
+            "ALIAS" : "world_city_count"
+        },
+        {
+            "QUERY" : "SELECT count(1) AS count_of_salaries FROM employees_salaries",
+            "ALIAS" : "employees_salaries_count"
+        },
+        {
+            "QUERY" : "SELECT * FROM employees_salaries LIMIT 10",
+            "ALIAS" : "employees_salaries_sample"
+        },
+        {
+            "QUERY" : "SELECT min(salary) as min_salary, max(salary) as max_salary FROM employees_salaries LIMIT 10",
+            "ALIAS" : "employees_min_max_salaries"
+        },
+        {
+            "QUERY" : "SELECT emp_no, salary FROM (SELECT emp_no, salary, dense_rank(emp_no) over(ORDER BY salary DESC) AS rank FROM employees_salaries) t WHERE t.rank = 66",
+            "ALIAS" : "employees_with_rank_sixtysix"
+        }
+    ]
+}

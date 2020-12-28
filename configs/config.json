@@ -1,0 +1,44 @@
+{
+    "OUTPUT_DIRECTORY" : "/user/kishan/pyetl/output",
+    "SOURCE" : [
+        {
+            "TYPE" : "FILE",
+            "FORMAT" : "CSV",
+            "LOCATION" : "/tmp/test/basiccount_task4_result/",
+            "ALIAS" : "basiccount",
+            "OPTIONS" : {
+                "SEP" : ",",
+                "HEADER" : "true"
+            }
+        },
+        {
+            "TYPE" : "TABLE",
+            "TABLE" : "imdb.name_basics",
+            "ALIAS" : "imdb_name_basics"
+        },
+        {
+            "TYPE" : "QUERY",
+            "QUERY" : "SELECT * FROM imdb.title_basics",
+            "ALIAS" : "imdb_title_basics"
+        },
+        {
+            "TYPE" : "QUERY",
+            "QUERY" : "SELECT COUNT(1) AS COUNT_TEST FROM basiccount",
+            "ALIAS" : "basiccount_count"
+        }
+    ],
+    "LOAD" : [
+        {
+            "QUERY" : "SELECT * FROM basiccount_count",
+            "ALIAS" : "BASICCOUNT"
+        },
+        {
+            "QUERY" : "SELECT TITLETYPE, COUNT(1) AS COUNT FROM IMDB_TITLE_BASICS GROUP BY TITLETYPE",
+            "ALIAS" : "COUNT_FOR_TITLETYPE"
+        },
+        {
+            "QUERY" : "SELECT * FROM IMDB_NAME_BASICS WHERE nconst = 'nm0000001'",
+            "ALIAS" : "NAME_TITLE_RECORD_nm0000001"
+        }
+    ]
+}
